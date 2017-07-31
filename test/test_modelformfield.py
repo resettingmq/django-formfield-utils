@@ -53,10 +53,8 @@ class ModelFormFieldTestCase(TestCase):
     def test_can_retrieve_object(self):
         outer_form = forms.ModelOuterFormWithModelForm(self.outer_form_data)
         outer_form.fields['form_field'].instance = self.instance
-        print(self.instance.field_1)
         outer_form.full_clean()
 
         obj = outer_form['form_field'].save()
-        print(outer_form['form_field'].inner_form.cleaned_data)
         self.assertEqual(obj.field_0, 'inner_val0')
         self.assertEqual(obj.field_1, '')

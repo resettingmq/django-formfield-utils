@@ -20,5 +20,6 @@ class FormInput(Widget):
     def get_context(self, name, value, attrs, context=None, template_name=None):
         ctx = super().get_context(name, value, attrs)
         ctx['widget']['template_name'] = template_name
+        ctx['form'] = value
         context.update(ctx)
         return context
