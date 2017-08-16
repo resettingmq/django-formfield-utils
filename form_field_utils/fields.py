@@ -40,6 +40,8 @@ class BoundFormField(BoundField):
     @property
     def inner_form(self):
         if self._inner_form is not None:
+            for field in self._inner_form.fields.values():
+                field.disabled = self.field.disabled
             return self._inner_form
         else:
             return self._get_form()
