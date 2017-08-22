@@ -125,7 +125,7 @@ class OrdereModelForm(ModelFormFieldSupportMixin, forms.ModelForm):
 
 ### `using_template`选项
 
-如果`using_template`为`False`，在template渲染FormField实例时会简单的调用内层`form.as_table()`方法。
+如果`using_template`为`False`，在template渲染FormField实例时(`{{ form_field }}`)会简单的调用内层`form.as_table()`方法。
 如果`using_template`为`True`，则会按照内层FormField`template_name`指定的template对内层Form实例进行渲染。
 
 `using_template`默认为`False`。
@@ -143,4 +143,26 @@ class OrdereModelForm(ModelFormFieldSupportMixin, forms.ModelForm):
         template_name='path/to/template'
     )
 ```
+
+简易的外层Form template代码示例如下：
+
+```djangotemplate
+{# simple template code of rendering outer form #}
+{% load formfield_widget %}
+
+{% for field in form %}
+    {% if field|is_formfield %}
+        {# just call __str__() method of formfield #}
+        {# so that can using template_name specified template #}
+        {# to render the inner form of the formfield #}
+        {{ field }}
+    {% else %}
+        {# render regular field here #}
+    {% endif %}
+{% endfor %}
+```
+
+这里使用了django-formfield-utils自带的`formfield_field.is_formfield` filter，
+在template中判断一个field是否是FormField。
+
 > todo: 增加设定全局FormField template的功能
